@@ -92,7 +92,7 @@ function list {
 }
 
 function list_castle_names {
-	for repo in $(find $repos -mindepth 2 -maxdepth 2 -name .git -type d | sed 's#/.git$##g' | sort); do
+	for repo in $(find $repos -mindepth 2 -maxdepth 2 -name .git -type d -follow | sed 's#/.git$##g' | sort); do
 		local reponame=$(basename $repo)
 		printf "$reponame\n"
 	done
