@@ -9,7 +9,7 @@ function symlink {
 		ignore 'ignored' "$castle"
 		return $EX_SUCCESS
 	fi
-	for remote in $(find $repo/home -mindepth 1 -name .git -prune -o -print); do
+	for remote in $(find $repo/home -mindepth 1 -name .git -o -name .DS_Store -prune -o -print); do
 		filename=${remote#$repo/home/}
 		local=$HOME/$filename
 
