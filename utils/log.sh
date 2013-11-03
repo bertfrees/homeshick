@@ -52,7 +52,7 @@ function fail {
 function ignore {
 	[[ $1 ]] && pending_status=$1
 	[[ $2 ]] && pending_message=$2
-	status "\r$bldblu" "$pending_status" "$pending_message"
+	$VERBOSE && status "\r$bldblu" "$pending_status" "$pending_message"
 	unset pending_status pending_message
 }
 

@@ -25,6 +25,7 @@ if [[ ! $GIT_VERSION =~ ([0-9]+)(\.[0-9]+){0,3} ]]; then
 fi
 
 TALK=true
+VERBOSE=false
 SKIP=false
 FORCE=false
 BATCH=false
@@ -40,11 +41,12 @@ while [[ $# -gt 0 ]]; do
 			unset param
 		fi
 		case $1 in
-			-h | --help)  cmd="help" ; shift; continue ;;
-			-q | --quiet) TALK=false ; shift; continue ;;
-			-s | --skip)  SKIP=true  ; shift; continue ;;
-			-f | --force) FORCE=true ; shift; continue ;;
-			-b | --batch) BATCH=true ; shift; continue ;;
+			-h | --help)    cmd="help"   ; shift; continue ;;
+			-q | --quiet)   TALK=false   ; shift; continue ;;
+			     --verbose) VERBOSE=true ; shift; continue ;;
+			-s | --skip)    SKIP=true    ; shift; continue ;;
+			-f | --force)   FORCE=true   ; shift; continue ;;
+			-b | --batch)   BATCH=true   ; shift; continue ;;
 			*)     err $EX_USAGE "Unknown option '$1'" ;;
 		esac
 	else
