@@ -9,9 +9,13 @@ function symlink {
 		ignore 'ignored' "$castle"
 		return $EX_SUCCESS
 	fi
+	custom_link=false
+	[ ! -z "$HOMESHICK_CUSTOM_LINK" ] && [ -e "$HOMESHICK_CUSTOM_LINK" ] && custom_link=true
 	for remote in $(find $repo/home -mindepth 1 -name .git -o -name .DS_Store -prune -o -print); do
 		filename=${remote#$repo/home/}
 		local=$HOME/$filename
+
+		$custom_link && "$HOMESHICK_CUSTOM_LINK" "$remote" "$local" && continue
 
 		if [[ -e $local || -L $local  ]]; then
 			# $local exists (but may be a dead symlink)
