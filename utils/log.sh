@@ -87,7 +87,7 @@ function prompt_no {
 			local answer=""
 			local char=""
 			while true; do
-				read -s -n 1 char
+				read -s -n 1 char </dev/tty
 				if [[ $char == "" ]]; then
 					break
 				fi

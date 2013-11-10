@@ -11,7 +11,7 @@ function symlink {
 	fi
 	custom_link=false
 	[ ! -z "$HOMESHICK_CUSTOM_LINK" ] && [ -e "$HOMESHICK_CUSTOM_LINK" ] && custom_link=true
-	for remote in $(find $repo/home -mindepth 1 -name .git -o -name .DS_Store -prune -o -print); do
+	find $repo/home -mindepth 1 -name .git -o -name .DS_Store -prune -o -print | while read remote; do
 		filename=${remote#$repo/home/}
 		local=$HOME/$filename
 
@@ -53,11 +53,11 @@ function symlink {
 
 		if [[ ! -d $remote || -L $remote ]]; then
 			# $remote is not a real directory so we create a symlink to it
-			pending 'symlink' $filename
-			ln -s $remote $local
+			pending 'symlink' "$filename"
+			ln -s "$remote" "$local"
 		else
-			pending 'directory' $filename
-			mkdir $local
+			pending 'directory' "$filename"
+			mkdir "$local"
 		fi
 
 		success
