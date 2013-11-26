@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -z "$HOMESHICK_CUSTOM_LINK" ] && [ -e "$HOMESHICK_CUSTOM_LINK" ]; then
+	source "$HOMESHICK_CUSTOM_LINK"
+fi
+
 function symlink {
 	[[ ! $1 ]] && help symlink
 	local castle=$1
@@ -9,13 +13,11 @@ function symlink {
 		ignore 'ignored' "$castle"
 		return $EX_SUCCESS
 	fi
-	custom_link=false
-	[ ! -z "$HOMESHICK_CUSTOM_LINK" ] && [ -e "$HOMESHICK_CUSTOM_LINK" ] && custom_link=true
 	find $repo/home -mindepth 1 -name .git -o -name .DS_Store -prune -o -print | while read remote; do
 		filename=${remote#$repo/home/}
 		local=$HOME/$filename
 
-		$custom_link && "$HOMESHICK_CUSTOM_LINK" "$remote" "$local" && continue
+		[[ $( type -t custom_link ) = 'function' ]] && custom_link "$remote" "$local" && continue
 
 		if [[ -e $local || -L $local  ]]; then
 			# $local exists (but may be a dead symlink)
